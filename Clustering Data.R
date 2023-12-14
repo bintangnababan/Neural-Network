@@ -1,39 +1,51 @@
-# Loading Required Libraries
-library(dendextend)
-library(readr)
-
 # Input Data
-data1 <- read_csv("C:/Users/Binta/OneDrive/Documents/CV Publikasi/Clustering/Selected_Online_Sport_Wagering_Data.csv")
-data <- data.frame(data1[, 4:14])
+library(readr)
+Glass <- read_csv("C:/Users/Binta/Downloads/glass.csv")
+head(Glass)
 
-# EUCLID
-# Calculating Euclidean Distance Matrix
-euclidean_distance <- dist(data, method = "euclidean")
+# Import Data
+library(data.table)
+data.glass <- data.table(Glass)
+data.glass
 
-# Creating a Dendrogram
-dend_euclidean <- hclust(euclidean_distance, method = "single")
-dend1_euclidean <- hclust(euclidean_distance, method = "average")
-dend2_euclidean <- hclust(euclidean_distance, method = "complete")
-dend3_euclidean <- hclust(euclidean_distance, method = "ward.D2")
+# Data Cleaning
+# Remove Missing Values
+new.glass <- na.omit(data.glass, col = c("RI", "Na", "Mg", "Al", "Si", "K", "Ca", "Ba", "Fe"))
+# Remove Duplicate Data
+new.glass <- unique(new.glass)
+new.glass
 
-# Show Dendrogram
-plot(dend_euclidean, main = "Dendrogram Euclidean")
-plot(dend1_euclidean, main = "Dendrogram Euclidean")
-plot(dend2_euclidean, main = "Dendrogram Euclidean")
-plot(dend3_euclidean, main = "Dendrogram Euclidean")
+# Exploratory Data Analysis (EDA)
+pairs(new.glass)
+summary(new.glass)
+cor_matrix <- cor(new.glass)
+heatmap(cor_matrix)
 
-# MANHATTAN
-# Calculating Manhattan Distance Matrix
-manhattan_distance <- dist(data, method = "manhattan")
+# Feature Engineering
+# Normalize Numeric Variables
+library(caret)
+preProcess_data <- preProcess(new.glass[, c("RI", "Na", "Mg", "Al", "Si", "K", "Ca", "Ba", "Fe")], method = c("center", "scale"))
+# Apply Normalization to the Dataset
+new.glass <- predict(preProcess_data, newdata = new.glass)
 
-# Creating a Dendrogram
-dend_manhattan <- hclust(manhattan_distance, method = "single")
-dend1_manhattan <- hclust(manhattan_distance, method = "average")
-dend2_manhattan <- hclust(manhattan_distance, method = "complete")
-dend3_manhattan <- hclust(manhattan_distance, method = "ward.D2")
+# Type
+glass.type <- new.glass$Type
+table(glass.type)
 
-# Show Dendrogram
-plot(dend_manhattan)
-plot(dend1_manhattan)
-plot(dend2_manhattan)
-plot(dend3_manhattan)
+# Data Splitting into Training and Testing
+set.seed(123)
+train_index <- sample(1:nrow(new.glass), 0.8 * nrow(new.glass))
+train_data <- new.glass[train_index,]
+test_data <- new.glass[-train_index]
+
+# Determine the Number of Hidden Layers and Neurons
+nx = 9
+ny = 6
+nz = sqrt(nx * ny)
+nz
+
+# Algorithm
+library(neuralnet)
+nn <- neuralnet(Type ~ RI + Na + Mg + Al + Si + K + Ca + Ba + Fe, data = train_data, hidden = nz, linear.output = FALSE)
+plot(nn)
+weights(nn)
