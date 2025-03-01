@@ -43,5 +43,3 @@ The `Type` column represents the class label indicating the intended use of the 
 - **Forensic Application:** In forensic investigations, glass fragments found at crime scenes can be analyzed and compared to known glass types to determine their possible origin, such as from building windows, vehicle windows, or household glass items.
 
 ---
-
-Let me know if you want me to generate a sample **README.md** file for your GitHub repo! 🚀
