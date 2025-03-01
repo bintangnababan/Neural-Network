@@ -1,56 +1,81 @@
-### Project Description
+Absolutely! Here’s a **complete English description** for your GitHub README:
 
-This project demonstrates a **classification pipeline** using **XGBoost** with **hyperparameter tuning** via grid search, applied to a **multiclass classification problem**. The approach is designed for datasets where the goal is to predict the type or category of a sample based on numerical features — such as the **Glass Identification Dataset** where the chemical composition of glass is used to classify its type (e.g., building windows, vehicle windows, containers, etc.).
+---
 
-### Objective
+## 📊 Glass Identification Classification Project
 
-The primary goal of this project is to:
+### 📂 Dataset Overview
+This project uses the **Glass Identification Dataset**, a well-known dataset used for classification problems. It contains **chemical composition data** for different types of glass. The goal is to classify the **type of glass** based on its elemental composition.
 
-- **Build a robust multiclass classification model** using XGBoost.
-- **Perform systematic hyperparameter tuning** using the `caret` package's grid search functionality.
-- **Evaluate the model’s performance using cross-validation and test data.**
-- **Visualize the tuning process and final model performance.**
+| Feature | Description |
+| --- | --- |
+| RI | Refractive Index |
+| Na | Sodium |
+| Mg | Magnesium |
+| Al | Aluminum |
+| Si | Silicon |
+| K | Potassium |
+| Ca | Calcium |
+| Ba | Barium |
+| Fe | Iron |
+| Type | Glass type (target class, ranging from 1 to 7) |
 
-### Key Steps
+There are **7 types of glass** to classify:
+1. Building windows (float processed)
+2. Building windows (non-float processed)
+3. Vehicle windows (float processed)
+4. Containers
+5. Tableware
+6. Headlamps
 
-1. **Data Preparation**  
-   The dataset is split into **training and testing sets** to assess model generalization. Feature scaling (centering and scaling) is applied for optimal model performance.
-   
-2. **Hyperparameter Tuning**  
-   A **grid search** over multiple hyperparameters is performed, including:
-   - Number of boosting rounds (`nrounds`)
-   - Learning rate (`eta`)
-   - Maximum tree depth (`max_depth`)
-   - Minimum child weight (`min_child_weight`)
-   - Subsampling rate (`subsample`)
-   - Column sampling rate (`colsample_bytree`)
-   - Regularization (`gamma`)
+---
 
-3. **Model Training & Validation**  
-   The model is trained using **5-fold cross-validation** with `caret::train()`, optimizing for **Accuracy** as the evaluation metric. The process also logs intermediate results to track progress.
+### 🔄 Data Preprocessing
+The following preprocessing steps were applied:
 
-4. **Model Evaluation**  
-   The tuned model is tested on the **holdout test set**, and **confusion matrix** analysis is performed to assess performance on unseen data. Overall test **accuracy** is also reported.
+1. **Data Cleaning**:
+   - Removed missing values.
+   - Removed duplicate rows.
+   - Converted the `Type` column into a factor (categorical variable).
 
-5. **Visualization**  
-   A **tuning plot** is generated to illustrate the relationship between hyperparameters and model performance. This helps in understanding the impact of tuning choices.
+2. **Normalization**:
+   - All numerical features were normalized using **centering** and **scaling** to improve model performance.
 
-### Use Case Context (Glass Identification Dataset)
+3. **Train-Test Split**:
+   - The data was split into **80% training data** and **20% test data**, sampled randomly.
 
-Although this example uses the `iris` dataset for demonstration, the same approach can be directly applied to datasets such as the **Glass Identification Dataset**, where the goal is to classify glass samples based on their chemical composition. The flexibility of this pipeline makes it suitable for any numeric-feature-based multiclass classification problem.
+---
 
-### Packages Used
+### ⚖️ Handling Imbalanced Data
+- The training set was balanced using **SMOTE (Synthetic Minority Oversampling Technique)**.
+- SMOTE generates synthetic samples for minority classes, helping the model better detect all glass types.
 
-- `caret` – Model training, hyperparameter tuning, cross-validation
-- `xgboost` – Core XGBoost algorithm
-- `dplyr` – Data manipulation
-- `ggplot2` – Visualization
+---
 
-### Key Output
+### 🤖 Model
+- The classification model used is **XGBoost (Extreme Gradient Boosting)**.
+- Key model parameters:
+    - **Objective**: multi:softmax (for multiclass classification).
+    - **Evaluation Metric**: mlogloss (multiclass log-loss).
+    - **Number of Classes**: 7 (representing the 7 glass types).
 
-- Best hyperparameter combination
-- Confusion matrix on test data
-- Test set accuracy
-- Tuning process visualization (hyperparameter performance plot)
+- Training includes **early stopping** if the evaluation metric does not improve after 10 consecutive rounds.
+
+---
+
+### 📊 Evaluation
+- Model performance is evaluated using a **Confusion Matrix** and **Overall Accuracy**.
+- Final predictions are converted back to their original class labels (1-7) for comparison with the actual labels.
+
+---
+
+### 🚀 Tools & Libraries
+This project was implemented using **R**, with the following libraries:
+
+- `readr`: for data import.
+- `data.table`: for efficient data manipulation.
+- `caret`: for preprocessing.
+- `xgboost`: for training the classification model.
+- `smotefamily`: for applying SMOTE to balance the training data.
 
 ---
