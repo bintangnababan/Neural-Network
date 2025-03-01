@@ -1,45 +1,56 @@
-## Glass Identification Dataset
+### Project Description
 
-This dataset contains chemical composition data of various types of glass. The goal is to classify the glass type based on its composition. This dataset is widely used for machine learning classification tasks, particularly in forensic applications where glass fragments need to be identified and matched to potential sources.
+This project demonstrates a **classification pipeline** using **XGBoost** with **hyperparameter tuning** via grid search, applied to a **multiclass classification problem**. The approach is designed for datasets where the goal is to predict the type or category of a sample based on numerical features — such as the **Glass Identification Dataset** where the chemical composition of glass is used to classify its type (e.g., building windows, vehicle windows, containers, etc.).
 
-### Dataset Overview
+### Objective
 
-- **Number of Samples:** 214 glass samples
-- **Number of Features:** 9 chemical attributes + 1 target label (glass type)
+The primary goal of this project is to:
 
-### Columns Description
+- **Build a robust multiclass classification model** using XGBoost.
+- **Perform systematic hyperparameter tuning** using the `caret` package's grid search functionality.
+- **Evaluate the model’s performance using cross-validation and test data.**
+- **Visualize the tuning process and final model performance.**
 
-| Column | Name | Description |
-|---|---|---|
-| 1 | RI | Refractive Index – measures how much light bends as it passes through the glass. |
-| 2 | Na | Sodium – weight percent of sodium oxide in the glass. |
-| 3 | Mg | Magnesium – weight percent of magnesium oxide in the glass. |
-| 4 | Al | Aluminum – weight percent of aluminum oxide in the glass. |
-| 5 | Si | Silicon – weight percent of silicon oxide in the glass. |
-| 6 | K | Potassium – weight percent of potassium oxide in the glass. |
-| 7 | Ca | Calcium – weight percent of calcium oxide in the glass. |
-| 8 | Ba | Barium – weight percent of barium oxide in the glass. |
-| 9 | Fe | Iron – weight percent of iron oxide in the glass. |
-| 10 | Type | Target class – type of glass (see categories below). |
+### Key Steps
 
-### Glass Type (Target Classes)
+1. **Data Preparation**  
+   The dataset is split into **training and testing sets** to assess model generalization. Feature scaling (centering and scaling) is applied for optimal model performance.
+   
+2. **Hyperparameter Tuning**  
+   A **grid search** over multiple hyperparameters is performed, including:
+   - Number of boosting rounds (`nrounds`)
+   - Learning rate (`eta`)
+   - Maximum tree depth (`max_depth`)
+   - Minimum child weight (`min_child_weight`)
+   - Subsampling rate (`subsample`)
+   - Column sampling rate (`colsample_bytree`)
+   - Regularization (`gamma`)
 
-The `Type` column represents the class label indicating the intended use of the glass:
+3. **Model Training & Validation**  
+   The model is trained using **5-fold cross-validation** with `caret::train()`, optimizing for **Accuracy** as the evaluation metric. The process also logs intermediate results to track progress.
 
-| Type | Description |
-|---|---|
-| 1 | Building windows (float processed) |
-| 2 | Building windows (non-float processed) |
-| 3 | Vehicle windows (float processed) |
-| 4 | Vehicle windows (non-float processed) – no samples available in this dataset |
-| 5 | Containers (e.g., bottles, jars) |
-| 6 | Tableware (e.g., glass plates, drinking glasses) |
-| 7 | Headlamps (vehicle headlights) |
+4. **Model Evaluation**  
+   The tuned model is tested on the **holdout test set**, and **confusion matrix** analysis is performed to assess performance on unseen data. Overall test **accuracy** is also reported.
 
-### Notes
+5. **Visualization**  
+   A **tuning plot** is generated to illustrate the relationship between hyperparameters and model performance. This helps in understanding the impact of tuning choices.
 
-- **Source:** Originally sourced from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/glass+identification).
-- **Use Cases:** This dataset is commonly used to practice classification algorithms such as **K-Nearest Neighbors (KNN)**, **Decision Trees**, **Random Forests**, and **Neural Networks**.
-- **Forensic Application:** In forensic investigations, glass fragments found at crime scenes can be analyzed and compared to known glass types to determine their possible origin, such as from building windows, vehicle windows, or household glass items.
+### Use Case Context (Glass Identification Dataset)
+
+Although this example uses the `iris` dataset for demonstration, the same approach can be directly applied to datasets such as the **Glass Identification Dataset**, where the goal is to classify glass samples based on their chemical composition. The flexibility of this pipeline makes it suitable for any numeric-feature-based multiclass classification problem.
+
+### Packages Used
+
+- `caret` – Model training, hyperparameter tuning, cross-validation
+- `xgboost` – Core XGBoost algorithm
+- `dplyr` – Data manipulation
+- `ggplot2` – Visualization
+
+### Key Output
+
+- Best hyperparameter combination
+- Confusion matrix on test data
+- Test set accuracy
+- Tuning process visualization (hyperparameter performance plot)
 
 ---
