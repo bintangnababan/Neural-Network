@@ -1,41 +1,47 @@
-# Neural Network Modeling for Glass Classification
+## Glass Identification Dataset
 
-This repository contains R code for building a neural network model to classify glass types using the Glass dataset. The neural network is constructed using the `neuralnet` library, and the entire process includes data loading, cleaning, exploratory data analysis (EDA), feature engineering, and model training.
+This dataset contains chemical composition data of various types of glass. The goal is to classify the glass type based on its composition. This dataset is widely used for machine learning classification tasks, particularly in forensic applications where glass fragments need to be identified and matched to potential sources.
 
-## Overview
+### Dataset Overview
 
-Neural networks are a class of machine learning models inspired by the structure and functioning of the human brain. They consist of interconnected nodes (neurons) organized in layers, including input, hidden, and output layers. The neural network learns patterns and relationships within the data through a process called training, adjusting the weights associated with each connection.
+- **Number of Samples:** 214 glass samples
+- **Number of Features:** 9 chemical attributes + 1 target label (glass type)
 
-## Code Highlights
+### Columns Description
 
-### 1. Data Loading and Cleaning
+| Column | Name | Description |
+|---|---|---|
+| 1 | RI | Refractive Index – measures how much light bends as it passes through the glass. |
+| 2 | Na | Sodium – weight percent of sodium oxide in the glass. |
+| 3 | Mg | Magnesium – weight percent of magnesium oxide in the glass. |
+| 4 | Al | Aluminum – weight percent of aluminum oxide in the glass. |
+| 5 | Si | Silicon – weight percent of silicon oxide in the glass. |
+| 6 | K | Potassium – weight percent of potassium oxide in the glass. |
+| 7 | Ca | Calcium – weight percent of calcium oxide in the glass. |
+| 8 | Ba | Barium – weight percent of barium oxide in the glass. |
+| 9 | Fe | Iron – weight percent of iron oxide in the glass. |
+| 10 | Type | Target class – type of glass (see categories below). |
 
-The initial steps involve loading the Glass dataset, converting it to a data.table, and performing data cleaning by removing missing values and duplicates.
+### Glass Type (Target Classes)
 
-### 2. Exploratory Data Analysis (EDA)
+The `Type` column represents the class label indicating the intended use of the glass:
 
-EDA is conducted through scatterplot matrices, summary statistics, and correlation matrices to gain insights into the dataset's characteristics.
+| Type | Description |
+|---|---|
+| 1 | Building windows (float processed) |
+| 2 | Building windows (non-float processed) |
+| 3 | Vehicle windows (float processed) |
+| 4 | Vehicle windows (non-float processed) – no samples available in this dataset |
+| 5 | Containers (e.g., bottles, jars) |
+| 6 | Tableware (e.g., glass plates, drinking glasses) |
+| 7 | Headlamps (vehicle headlights) |
 
-### 3. Feature Engineering
+### Notes
 
-Numeric variable normalization is performed using the `caret` library to ensure consistent scaling across features.
+- **Source:** Originally sourced from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/glass+identification).
+- **Use Cases:** This dataset is commonly used to practice classification algorithms such as **K-Nearest Neighbors (KNN)**, **Decision Trees**, **Random Forests**, and **Neural Networks**.
+- **Forensic Application:** In forensic investigations, glass fragments found at crime scenes can be analyzed and compared to known glass types to determine their possible origin, such as from building windows, vehicle windows, or household glass items.
 
-### 4. Data Splitting
+---
 
-The dataset is split into training and testing sets to evaluate the model's performance.
-
-### 5. Neural Network Modeling
-
-A neural network model is constructed using the `neuralnet` library, with the number of hidden neurons determined based on the dataset's features.
-
-### 6. Plotting and Analysis
-
-The neural network's architecture is visualized, and the weights are displayed to understand the model's internal representations.
-
-## Usage
-
-To replicate the analysis, follow the provided R code and ensure that the required libraries are installed. The code is well-documented to guide users through each step of the process.
-
-Feel free to explore, modify, and enhance the code for your specific use case. If you have any questions or suggestions, please create an issue or reach out via the provided contact information.
-
-Happy coding!
+Let me know if you want me to generate a sample **README.md** file for your GitHub repo! 🚀
